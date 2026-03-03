@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "ado-finder": {
+      "command": "node",
+      "args": [
+        "/Users/couyoung/Desktop/ADO connector test/dist/index.js"
+      ],
+      "env": {
+        "ADO_ORG": "<your-ado-org>",
+        "ADO_PROJECT": "<your-ado-project>",
+        "ADO_PAT": "<your-personal-access-token>"
+      }
+    }
+  }
+}
