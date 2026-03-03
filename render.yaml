@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ado-finder-mcp
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: ADO_ORG
+        sync: false
+      - key: ADO_PROJECT
+        sync: false
+      - key: ADO_PAT
+        sync: false
+      - key: API_KEY
+        sync: false
