@@ -87,11 +87,20 @@ async function handleMCP(req: Request, res: Response): Promise<void> {
   }
 }
 
-// Patch Accept header so clients that omit text/event-stream still work
+// Patch Accept header so clients that omit text/event-stream still work.
+// Must update rawHeaders because @hono/node-server reads rawHeaders, not req.headers.
 function patchAccept(req: Request, _res: Response, next: NextFunction): void {
   const accept = req.headers['accept'] ?? '';
   if (!accept.includes('text/event-stream')) {
-    req.headers['accept'] = 'application/json, text/event-stream';
+    const patched = 'application/json, text/event-stream';
+    req.headers['accept'] = patched;
+    const raw = req.rawHeaders as string[];
+    const idx = raw.findIndex((h, i) => i % 2 === 0 && h.toLowerCase() === 'accept');
+    if (idx >= 0) {
+      raw[idx + 1] = patched;
+    } else {
+      raw.push('accept', patched);
+    }
   }
   next();
 }
