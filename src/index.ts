@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
@@ -47,6 +48,7 @@ function createMCPServer(): McpServer {
 // ─── Express app ──────────────────────────────────────────────────────────────
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Auth middleware — validates x-api-key on all /mcp requests
