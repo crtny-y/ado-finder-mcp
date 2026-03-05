@@ -87,11 +87,20 @@ async function handleMCP(req: Request, res: Response): Promise<void> {
   }
 }
 
+// Patch Accept header so clients that omit text/event-stream still work
+function patchAccept(req: Request, _res: Response, next: NextFunction): void {
+  const accept = req.headers['accept'] ?? '';
+  if (!accept.includes('text/event-stream')) {
+    req.headers['accept'] = 'application/json, text/event-stream';
+  }
+  next();
+}
+
 // POST: JSON-RPC requests (initialize, tools/list, tools/call)
-app.post('/mcp', requireApiKey, handleMCP);
+app.post('/mcp', requireApiKey, patchAccept, handleMCP);
 
 // GET: SSE stream for clients that open a persistent server-push channel
-app.get('/mcp', requireApiKey, handleMCP);
+app.get('/mcp', requireApiKey, patchAccept, handleMCP);
 
 app.listen(PORT, () => {
   console.log(`ADO Finder MCP server listening on port ${PORT}`);
