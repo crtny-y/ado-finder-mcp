@@ -39,7 +39,6 @@ export async function searchWithSearchAPI(
     filters: {
       'System.State': ['Active', 'New', 'Committed', 'Open', 'In Progress', 'To Do', 'Proposed'],
       'System.WorkItemType': ['Feature'],
-      'System.AreaPath': ['MSTeams\\Design'],
     },
   };
   try {
@@ -83,7 +82,7 @@ export async function searchWithWIQL(
               FROM WorkItems
               WHERE [System.TeamProject] = @project
               AND [System.WorkItemType] = 'Feature'
-              AND [System.AreaPath] UNDER 'MSTeams\\\\Design'
+              AND [System.AreaPath] UNDER 'MSTeams'
               AND [System.State] <> 'Closed'
               AND [System.State] <> 'Resolved'
               AND [System.State] <> 'Removed'
