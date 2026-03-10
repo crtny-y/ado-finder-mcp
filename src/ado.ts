@@ -38,7 +38,7 @@ export async function searchWithSearchAPI(
     $top: topK,
     filters: {
       'System.State': ['Active', 'New', 'Committed', 'Open', 'In Progress', 'To Do', 'Proposed'],
-      'System.WorkItemType': ['Feature'],
+      'System.WorkItemType': ['Feature', 'Design Requirement'],
     },
   };
   try {
@@ -81,7 +81,7 @@ export async function searchWithWIQL(
       query: `SELECT [System.Id], [System.Title], [System.State], [System.AssignedTo], [System.Tags], [System.Description]
               FROM WorkItems
               WHERE [System.TeamProject] = @project
-              AND [System.WorkItemType] = 'Feature'
+              AND [System.WorkItemType] IN ('Feature', 'Design Requirement')
               AND [System.AreaPath] UNDER 'MSTeams'
               AND [System.State] <> 'Closed'
               AND [System.State] <> 'Resolved'
